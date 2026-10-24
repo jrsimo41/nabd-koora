@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>نبض كورة</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Cairo,sans-serif}
-body{background:#0a0e1a;color:#fff;padding-bottom:20px}
-header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:16px;text-align:center}
+body{background:#0a0e1a;color:#fff;padding-bottom:80px}
+header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:14px;text-align:center;position:sticky;top:0;z-index:10}
+.tabs{display:flex;gap:6px;overflow:auto;padding:10px;max-width:600px;margin:0 auto;white-space:nowrap}
+.tabs button{background:#162032;border:1px solid #ffffff15;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer}
+.tabs button.active{background:#22c55e;color:#000;font-weight:800}
 .m{background:#162032;border:1px solid #ffffff12;border-radius:14px;padding:10px;margin:10px auto;max-width:600px}
 .t{font-size:11px;opacity:.6;display:flex;justify-content:space-between}
 .l{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
@@ -20,50 +22,58 @@ header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:16px;text-align
 .news{background:#162032;border-radius:14px;padding:12px;margin:10px auto;max-width:600px}
 .item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #ffffff10;align-items:center}
 .item img{width:85px;height:60px;border-radius:8px;object-fit:cover;background:#0f172a}
-.item div b{font-size:13px;display:block;line-height:1.4} 
-.item div span{font-size:11px;opacity:.5}
+.item b{font-size:13px;display:block} .item span{font-size:11px;opacity:.5}
+.live{color:#ef4444;font-size:11px;font-weight:800;animation:blink 1s infinite} @keyframes blink{50%{opacity:.3}}
+.search{max-width:600px;margin:10px auto;padding:0 10px}
+.search input{width:100%;background:#162032;border:1px solid #ffffff15;color:#fff;padding:8px 12px;border-radius:10px;font-size:13px}
 </style>
 </head>
 <body>
 <header><div style="font-size:22px;font-weight:800">⚽ نبض كورة</div><div style="font-size:11px;opacity:.7">بتوقيت المغرب والعالم العربي</div></header>
 
-<div class="m">
-<div class="t"><span>📅 اليوم - السبت 25 أكتوبر</span><span style="color:#ef4444">● مباشر</span></div>
-<div class="l"><div class="team"><img src="https://media.api-sports.io/football/teams/1069.png" onerror="this.style.display='none'">الوداد</div><div class="sc">1 - 1</div><div class="team">الرجاء<img src="https://media.api-sports.io/football/teams/1067.png" onerror="this.style.display='none'"></div></div>
-<div class="time">🇲🇦 <b>20:00</b> | 🇩🇿 20:00 | 🇪🇬 21:00 | 🇸🇦 <b>22:00</b> | 🇦🇪 23:00</div>
+<div class="tabs" id="tabs">
+<button class="active" onclick="filterDay('all')">الكل</button>
+<button onclick="filterDay('today')">اليوم</button>
+<button onclick="filterDay('tomorrow')">غدا</button>
+<button onclick="filterDay('yesterday')">الأمس</button>
+<button onclick="filterDay('botola')">🏆 البطولة</button>
+<button onclick="filterDay('laliga')">🇪🇸 الليغا</button>
 </div>
 
-<div class="m">
-<div class="t"><span>📅 غدا - الأحد 26 أكتوبر</span><span style="color:#ef4444">● مباشر</span></div>
-<div class="l"><div class="team"><img src="https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png">برشلونة</div><div class="sc">2 - 0</div><div class="team">ريال مدريد<img src="https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png"></div></div>
-<div class="time">🇲🇦 <b>21:00</b> | 🇩🇿 21:00 | 🇪🇬 22:00 | 🇸🇦 <b>23:00</b> | 🇦🇪 00:00</div>
-</div>
+<div class="search"><input id="q" placeholder="🔍 قلب على فريق... مثلا الوداد" oninput="searchTeam()"></div>
 
-<div class="m">
-<div class="t"><span>📅 اليوم - السبت 25 أكتوبر</span><span style="opacity:.5">انتهى</span></div>
-<div class="l"><div class="team"><img src="https://media.api-sports.io/football/teams/1040.png">بركان</div><div class="sc">0 - 0</div><div class="team">الجيش<img src="https://media.api-sports.io/football/teams/1016.png"></div></div>
-<div class="time">🇲🇦 <b>18:00</b> | 🇩🇿 18:00 | 🇪🇬 19:00 | 🇸🇦 <b>20:00</b> | 🇦🇪 21:00</div>
-</div>
+<div id="matches"></div>
 
 <div class="news">
 <div style="color:#22c55e;font-weight:800;font-size:14px;margin-bottom:6px">📰 آخر الأخبار بالصور</div>
-
-<div class="item">
-<img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=200" onerror="this.src='https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=200'">
-<div><b>الوداد يفوز على الرجاء 2-1 في ديربي مثير</b><span>منذ ساعة - البطولة المغربية</span></div>
+<div class="item"><img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=200"><div><b>الوداد يفوز على الرجاء 2-1 في ديربي مثير</b><span>منذ ساعة - البطولة المغربية</span></div></div>
+<div class="item"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200"><div><b>حكيمي أفضل لاعب في مباراة باريس</b><span>منذ 3 ساعات - دوري الأبطال</span></div></div>
+<div class="item" style="border:0"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=200"><div><b>المنتخب المغربي يستعد لكأس أفريقيا 2025</b><span>منذ 5 ساعات - المنتخب الوطني</span></div></div>
 </div>
 
-<div class="item">
-<img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=200" onerror="this.src='https://images.unsplash.com/photo-1579952363873-27f3bfad9c0d?w=200'">
-<div><b>حكيمي أفضل لاعب في مباراة باريس</b><span>منذ 3 ساعات - دوري الأبطال</span></div>
-</div>
-
-<div class="item" style="border:0">
-<img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=200">
-<div><b>المنتخب المغربي يستعد لكأس أفريقيا 2025</b><span>منذ 5 ساعات - المنتخب الوطني</span></div>
-</div>
-
-</div>
-
+<script>
+let all=[
+{h:'الوداد',a:'الرجاء',hl:'https://media.api-sports.io/football/teams/1069.png',al:'https://media.api-sports.io/football/teams/1067.png',s:'1 - 1',t:'20:00',d:'اليوم - السبت 25 أكتوبر',day:'today',lg:'botola',live:true},
+{h:'برشلونة',a:'ريال مدريد',hl:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',al:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',s:'2 - 0',t:'21:00',d:'غدا - الأحد 26 أكتوبر',day:'tomorrow',lg:'laliga',live:true},
+{h:'بركان',a:'الجيش',hl:'https://media.api-sports.io/football/teams/1040.png',al:'https://media.api-sports.io/football/teams/1016.png',s:'0 - 0',t:'18:00',d:'اليوم - السبت 25 أكتوبر',day:'today',lg:'botola',live:false},
+{h:'المغرب',a:'الجزائر',hl:'https://media.api-sports.io/football/teams/31.png',al:'https://media.api-sports.io/football/teams/32.png',s:'1 - 0',t:'20:00',d:'الأمس - الجمعة 24 أكتوبر',day:'yesterday',lg:'caf',live:false},
+];
+function timeLine(t){let[h,m]=t.split(':');h=+h;let f=(x)=>{let n=x;if(n>=24)n-=24;return String(n).padStart(2,'0')+':'+m};return `🇲🇦 <b>${t}</b> | 🇩🇿 ${f(h)} | 🇪🇬 ${f(h+1)} | 🇸🇦 <b>${f(h+2)}</b> | 🇦🇪 ${f(h+3)}`;}
+function render(list){
+ let box=document.getElementById('matches');let out='';
+ list.forEach(x=>{out+=`<div class="m"><div class="t"><span>📅 ${x.d}</span><span class="${x.live?'live':''}">${x.live?'● مباشر':'انتهى'}</span></div><div class="l"><div class="team"><img src="${x.hl}"> ${x.h}</div><div class="sc">${x.s}</div><div class="team">${x.a} <img src="${x.al}"></div></div><div class="time">${timeLine(x.t)}</div></div>`});
+ box.innerHTML=out||'<div style="text-align:center;opacity:.5;padding:20px">لا توجد مباريات</div>';
+}
+function filterDay(k){
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');
+ if(k==='all')render(all);
+ else render(all.filter(x=>x.day===k||x.lg===k));
+}
+function searchTeam(){
+ let q=document.getElementById('q').value.toLowerCase();
+ render(all.filter(x=>x.h.includes(q)||x.a.includes(q)||x.h.toLowerCase().includes(q)));
+}
+render(all);
+</script>
 </body>
 </html>
