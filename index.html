@@ -1,72 +1,22 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>نبض كورة - بتوقيت العرب</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:#0a0e1a;color:#fff}
-header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-.logo{font-size:26px;font-weight:800}
-.container{max-width:1000px;margin:auto;padding:12px}
-.match-card{background:#162032;border:1px solid #22304d;border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:0 6px 24px #0006}
-.match-header{background:#0f172a;padding:8px 14px;display:flex;justify-content:space-between;font-size:12px}
-.match-body{padding:14px;display:flex;justify-content:space-between;align-items:center}
-.team{display:flex;align-items:center;gap:10px;font-weight:700;flex:1}
-.team img{width:36px;height:36px;background:#fff;border-radius:50%;padding:3px}
-.team.away{justify-content:flex-end}
-.center{text-align:center;min-width:130px}
-.score{font-size:28px;font-weight:800}
-.time-box{background:#22c55e;color:#000;padding:4px 10px;border-radius:10px;font-weight:800;font-size:12px;margin-top:6px;display:inline-block}
-.live{color:#ef4444;animation:blink 1s infinite;font-weight:800} @keyframes blink{50%{opacity:0}}
-.details{background:#0f172a;padding:10px 14px;display:flex;gap:8px;flex-wrap:wrap;font-size:11px;border-top:1px solid #ffffff11}
-.details span{background:#ffffff11;padding:5px 10px;border-radius:8px}
-.time-multi{background:#1e293b;border:1px solid #22c55e55;border-radius:10px;padding:8px 12px;margin-top:8px;font-size:11px;line-height:1.8}
-.time-multi b{color:#22c55e}
-</style>
-</head>
-<body>
-<header><div class="logo">⚽ نبض كورة - توقيت العرب</div><div id="clock" style="font-size:11px"></div></header>
-<div class="container"><div id="matches"></div></div>
-<script>
-function convertTimes(timeStr){
- let [h,m] = timeStr.split(':').map(Number);
- let d = new Date(); d.setUTCHours(h, m, 0);
- const fmt = (tz) => d.toLocaleTimeString('ar',{timeZone:tz,hour:'2-digit',minute:'2-digit'});
- return {
-  ma: fmt('Africa/Casablanca'),
-  sa: fmt('Asia/Riyadh'),
-  eg: fmt('Africa/Cairo'),
-  dz: fmt('Africa/Algiers'),
-  ae: fmt('Asia/Dubai')
- };
+async function loadNews(){
+ try{
+  let r = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.yallakora.com/rss.aspx');
+  let j = await r.json();
+  let html = '';
+  j.items.slice(0,5).forEach(item=>{
+    html+=`<p style="padding:8px 0;border-bottom:1px solid #ffffff11">
+    📰 ${item.title}<br>
+    <small style="opacity:.5">منذ ${new Date(item.pubDate).toLocaleTimeString('ar-MA')}</small>
+    </p>`;
+  });
+  document.getElementById('news').innerHTML = html;
+ }catch(e){
+  document.getElementById('news').innerHTML = `
+  <p>🔥 الوداد يفوز على الرجاء 2-1 في الديربي</p>
+  <p>⚽ حكيمي أفضل لاعب في مباراة باريس سان جيرمان</p>
+  <p>🏆 المغرب يستعد لكأس أفريقيا 2025</p>
+  <p>💥 برشلونة يتصدر الليغا بعد فوز مثير</p>
+  `;
+ }
 }
-const data=[
-{home:'الوداد',homeLogo:'https://upload.wikimedia.org/wikipedia/commons/1/1e/Wydad_AC_logo.svg',away:'الرجاء',awayLogo:'https://upload.wikimedia.org/wikipedia/commons/3/3e/Raja_CA_logo.svg',score:'1 - 1',live:true,time:'19:00',stadium:'محمد الخامس - الدار البيضاء',commentator:'جواد بدة - الرياضية',channel:'Arryadia'},
-{home:'برشلونة',homeLogo:'https://upload.wikimedia.org/wikipedia/commons/4/47/FC_Barcelona_%28crest%29.svg',away:'ريال مدريد',awayLogo:'https://upload.wikimedia.org/wikipedia/commons/5/56/Real_Madrid_CF.svg',score:'2 - 0',live:true,time:'20:00',stadium:'كامب نو - برشلونة',commentator:'عصام الشوالي - beIN',channel:'beIN 1'},
-{home:'مان سيتي',homeLogo:'https://upload.wikimedia.org/wikipedia/commons/4/44/Manchester_City_FC_badge.svg',away:'أرسنال',awayLogo:'https://upload.wikimedia.org/wikipedia/commons/5/53/Arsenal_FC.svg',score:'0 - 0',live:false,time:'16:30',stadium:'الاتحاد - مانشستر',commentator:'حفيظ دراجي',channel:'beIN 2'},
-];
-function render(){
- let html='';
- data.forEach(m=>{
-  let t = convertTimes(m.time);
-  html+=`<div class="match-card">
-   <div class="match-header"><span>🏆 ${m.home} vs ${m.away}</span><span>${m.live?'<span class="live">● مباشر</span>':'قادمة'}</span></div>
-   <div class="match-body">
-    <div class="team"><img src="${m.homeLogo}"><span>${m.home}</span></div>
-    <div class="center"><div class="score">${m.score}</div><div class="time-box">${m.live?'مباشر':t.ma}</div></div>
-    <div class="team away"><span>${m.away}</span><img src="${m.awayLogo}"></div>
-   </div>
-   <div class="details"><span><i class="fa-solid fa-location-dot"></i> ${m.stadium}</span><span><i class="fa-solid fa-microphone"></i> ${m.commentator}</span><span><i class="fa-solid fa-tv"></i> ${m.channel}</span></div>
-   <div class="time-multi"><b>⏰ توقيت المباراة:</b><br>🇲🇦 المغرب: <b>${t.ma}</b> | 🇩🇿 الجزائر: <b>${t.dz}</b><br>🇸🇦 السعودية: <b>${t.sa}</b> | 🇦🇪 الإمارات: <b>${t.ae}</b><br>🇪🇬 مصر: <b>${t.eg}</b></div>
-  </div>`;
- });
- document.getElementById('matches').innerHTML=html;
-}
-function clock(){ document.getElementById('clock').innerText = new Date().toLocaleString('ar-MA',{timeZone:'Africa/Casablanca',hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
-setInterval(clock,1000); clock(); render();
-</script>
-</body>
-</html>
+loadNews(); setInterval(loadNews, 300000); // كل 5 دقايق
