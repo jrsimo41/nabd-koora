@@ -13,35 +13,18 @@ header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:14px;text-align
 .team{display:flex;align-items:center;gap:6px;font-weight:700;font-size:13px}
 .team img{width:26px;height:26px;background:#fff;border-radius:50%;padding:2px}
 .score{font-size:16px;font-weight:800;background:#0f172a;padding:2px 10px;border-radius:8px}
-.meta{font-size:11px;opacity:.6;margin-top:6px;display:flex;gap:8px;flex-wrap:wrap}
-.time-line{font-size:11px;background:#0f172a;border-radius:8px;padding:6px 10px;margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;border:1px solid #22c55e22}
+.time-line{font-size:11px;background:#0f172a;border-radius:8px;padding:6px 10px;margin-top:8px;display:flex;gap:10px;justify-content:center;border:1px solid #22c55e22}
 .time-line b{color:#22c55e}
-.card{background:#162032;border-radius:16px;padding:12px;margin:10px auto;max-width:700px;font-size:13px}
-.live{color:#ef4444;font-size:11px;font-weight:800;animation:blink 1s infinite} @keyframes blink{50%{opacity:.3}}
+.live{color:#ef4444;font-size:11px;animation:blink 1s infinite} @keyframes blink{50%{opacity:.3}}
 </style>
 </head>
 <body>
-<header><div style="font-size:22px;font-weight:800">⚽ نبض كورة</div><div style="font-size:11px;opacity:.7">بتوقيت المغرب والعالم العربي</div></header>
+<header><div style="font-size:22px;font-weight:800">⚽ نبض كورة</div></header>
 <div id="matches"></div>
-<div class="card"><div style="color:#22c55e;font-weight:800">📰 آخر الأخبار</div><div id="news" style="margin-top:8px;line-height:2"></div></div>
 <script>
-function times(m){
- let [h,mm]=m.split(':').map(Number);
- let add=(x)=>{let n=h+x;if(n>=24)n-=24;return String(n).padStart(2,'0')+':'+String(mm).padStart(2,'0')}
- return {ma:m,dz:m,eg:add(1),sa:add(2),ae:add(3)}
-}
+function times(m){let[h,mm]=m.split(':').map(Number);let add=(x)=>{let n=h+x;if(n>=24)n-=24;return String(n).padStart(2,'0')+':'+String(mm).padStart(2,'0')};return{ma:m,dz:m,eg:add(1),sa:add(2),ae:add(3)}}
 const matches=[
-{home:'الوداد',hl:'https://media.api-sports.io/football/teams/1069.png',away:'الرجاء',al:'https://media.api-sports.io/football/teams/1067.png',sc:'1 - 1',live:true,t:'20:00',date:'اليوم - السبت 25 أكتوبر',st:'محمد الخامس',co:'جواد بدة'},
-{home:'برشلونة',hl:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',away:'ريال مدريد',al:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',sc:'2 - 0',live:true,t:'21:00',date:'غدا - الأحد 26 أكتوبر',st:'كامب نو',co:'الشوالي'},
-{home:'نهضة بركان',hl:'https://media.api-sports.io/football/teams/1040.png',away:'الجيش الملكي',al:'https://media.api-sports.io/football/teams/1016.png',sc:'0 - 0',live:false,t:'18:00',date:'اليوم - السبت 25 أكتوبر',st:'البلدي بركان',co:'هشام فرج'},
+{home:'الوداد',hl:'https://media.api-sports.io/football/teams/1069.png',away:'الرجاء',al:'https://media.api-sports.io/football/teams/1067.png',sc:'1 - 1',live:true,t:'20:00',date:'اليوم - السبت 25 أكتوبر',st:'محمد الخامس'},
+{home:'برشلونة',hl:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',away:'ريال مدريد',al:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',sc:'2 - 0',live:true,t:'21:00',date:'غدا - الأحد 26 أكتوبر',st:'كامب نو'},
 ];
-function render(){
- let h='';
- matches.forEach(m=>{
-  let tt=times(m.t);
-  h+=`<div class="match">
-   <div class="row"><span style="font-size:11px;opacity:.6">📅 ${m.date} | 🏆 البطولة</span><span class="live">${m.live?'● مباشر':''}</span></div>
-   <div class="row" style="margin-top:8px">
-    <div class="team"><img src="${m.hl}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/53/53283.png'">${m.home}</div>
-    <div class="score">${m.sc}</div>
-    <div class="team">${m.away}<img src="${m.al}" onerror="this.src='https://cdn-icons-png.flaticon.com
+let html='';matches.forEach(m=>{let tt=times(m.t);html+=`<div class="match"><div class="row"><span style="font-size:11px;opacity:.6">📅 ${m.date}</span><span class="live">${m.live?'● مباشر':''}</span></div><div class="row" style="margin-top:8px
