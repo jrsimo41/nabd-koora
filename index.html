@@ -2,13 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>نبض كورة</title>
+<title>نبض كورة - لوغوات حقيقية</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Cairo,sans-serif}
 body{background:#0a0e1a;color:#fff}
 header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:12px;text-align:center;position:sticky;top:0;z-index:10}
-.tabs,.league-tabs{display:flex;gap:6px;overflow:auto;padding:8px;max-width:700px;margin:0 auto;white-space:nowrap;scrollbar-width:none}
+.tabs,.league-tabs{display:flex;gap:6px;overflow:auto;padding:8px;max-width:700px;margin:0 auto;white-space:nowrap}
 .tabs button,.league-tabs button{background:#162032;border:1px solid #ffffff15;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;flex-shrink:0}
 .tabs button.active,.league-tabs button.active{background:#22c55e;color:#000;font-weight:800}
 .m{background:#162032;border-radius:12px;padding:10px;margin:8px auto;max-width:700px;border:1px solid #ffffff0f}
@@ -22,12 +22,11 @@ table{width:100%;border-collapse:collapse;font-size:12px}
 th{padding:8px;background:#0a0e1a;opacity:.6;font-size:10px}
 td{padding:9px 6px;text-align:center;border-top:1px solid #ffffff0a}
 td.team-cell{text-align:right;display:flex;align-items:center;gap:8px}
-img.logo{width:20px;height:20px;background:#fff;border-radius:50%;padding:1px;object-fit:contain}
+img.logo{width:22px;height:22px;background:#fff;border-radius:50%;padding:2px;object-fit:contain}
 </style>
 </head>
 <body>
-<header><b>نبض كورة ⚽</b><div style="font-size:10px;opacity:.7">سريع وخفيف وبدون اخطاء</div></header>
-
+<header><b>نبض كورة ⚽</b><div style="font-size:10px;opacity:.7">لوغوات حقيقية من ويكيبيديا</div></header>
 <div class="tabs">
 <button class="active" onclick="filterDay('all',this)">الكل</button>
 <button onclick="filterDay('today',this)">اليوم</button>
@@ -35,7 +34,6 @@ img.logo{width:20px;height:20px;background:#fff;border-radius:50%;padding:1px;ob
 <button onclick="filterDay('yesterday',this)">الامس</button>
 </div>
 <div id="matches" style="padding:0 8px"></div>
-
 <div class="league-tabs">
 <button class="active" onclick="showLeague('botola',this)">المغرب</button>
 <button onclick="showLeague('pl',this)">انجلترا</button>
@@ -45,37 +43,33 @@ img.logo{width:20px;height:20px;background:#fff;border-radius:50%;padding:1px;ob
 <button onclick="showLeague('ligue1',this)">فرنسا</button>
 </div>
 <div class="table-wrap" id="tableWrap"></div>
-
 <script>
 let all=[
-{h:'الوداد',c:'#cc0000',s:'WAC',a:'الرجاء',ac:'#009900',as:'RCA',sc:'1-1',d:'اليوم',day:'today'},
-{h:'بركان',c:'#ff6600',s:'RSB',a:'الجيش',ac:'#000',as:'FAR',sc:'0-0',d:'اليوم',day:'today'},
-{h:'برشلونة',c:'#004d98',s:'FCB',a:'ريال مدريد',ac:'#fff',as:'RMA',sc:'21:00',d:'غدا',day:'tomorrow'},
-{h:'المغرب',c:'#c00000',s:'MAR',a:'الجزائر',ac:'#006600',as:'ALG',sc:'1-0',d:'الامس',day:'yesterday'},
+{h:'الوداد',logo:'https://upload.wikimedia.org/wikipedia/commons/8/89/Wydad_AC_logo.png',s:'WAC',a:'الرجاء',alogo:'https://upload.wikimedia.org/wikipedia/en/5/5d/Raja_CA.png',as:'RCA',sc:'1-1',d:'اليوم',day:'today'},
+{h:'بركان',logo:'https://upload.wikimedia.org/wikipedia/en/8/8b/RS_Berkane_logo.png',s:'RSB',a:'الجيش',alogo:'https://upload.wikimedia.org/wikipedia/en/0/0a/AS_FAR_logo.png',as:'FAR',sc:'0-0',d:'اليوم',day:'today'},
+{h:'برشلونة',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',s:'FCB',a:'ريال مدريد',alogo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',as:'RMA',sc:'21:00',d:'غدا',day:'tomorrow'},
+{h:'المغرب',logo:'https://upload.wikimedia.org/wikipedia/commons/2/2c/Flag_of_Morocco.svg',s:'MAR',a:'الجزائر',alogo:'https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg',as:'ALG',sc:'1-0',d:'الامس',day:'yesterday'},
 ];
-
 function render(list){
 let out='';
 list.forEach(x=>{
-let hl='<span class="badge" style="background:'+x.c+'">'+x.s+'</span>';
-let al='<span class="badge" style="background:'+x.ac+';color:'+(x.ac=='#fff'?'#000':'#fff')+'">'+x.as+'</span>';
-out+='<div class="m"><div style="font-size:11px;opacity:.6;display:flex;justify-content:space-between"><span>'+x.d+'</span><span>مباشر</span></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><div class="team">'+hl+' '+x.h+'</div><div class="sc">'+x.sc+'</div><div class="team">'+x.a+' '+al+'</div></div><div class="time">MA 20:00 | EG 21:00 | SA 22:00</div></div>';
+let hl='<img class="logo" src="'+x.logo+'">';
+let al='<img class="logo" src="'+x.alogo+'">';
+out+='<div class="m"><div style="font-size:11px;opacity:.6;display:flex;justify-content:space-between"><span>'+x.d+'</span><span>مباشر</span></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><div class="team">'+hl+' '+x.h+'</div><div class="sc">'+x.sc+'</div><div class="team">'+x.a+' '+al+'</div></div><div class="time">MA 20:00 | SA 22:00</div></div>';
 });
 document.getElementById('matches').innerHTML=out;
 }
 function filterDay(k,btn){
-document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
+document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
 if(k=='all')render(all);else render(all.filter(x=>x.day==k));
 }
-
 let leagues={
 botola:{name:'البطولة المغربية',teams:[
-{n:'نهضة بركان',c:'#ff6600',s:'RSB',p:28,m:11},
-{n:'الجيش الملكي',c:'#000',s:'FAR',p:25,m:11},
-{n:'الوداد',c:'#cc0000',s:'WAC',p:23,m:11},
-{n:'الرجاء',c:'#009900',s:'RCA',p:22,m:11},
-{n:'الفتح',c:'#0033cc',s:'FUS',p:19,m:11},
+{n:'نهضة بركان',logo:'https://upload.wikimedia.org/wikipedia/en/8/8b/RS_Berkane_logo.png',s:'RSB',p:28,m:11},
+{n:'الجيش الملكي',logo:'https://upload.wikimedia.org/wikipedia/en/0/0a/AS_FAR_logo.png',s:'FAR',p:25,m:11},
+{n:'الوداد',logo:'https://upload.wikimedia.org/wikipedia/commons/8/89/Wydad_AC_logo.png',s:'WAC',p:23,m:11},
+{n:'الرجاء',logo:'https://upload.wikimedia.org/wikipedia/en/5/5d/Raja_CA.png',s:'RCA',p:22,m:11},
+{n:'الفتح',logo:'https://upload.wikimedia.org/wikipedia/commons/5/5c/FUS_Rabat_logo.png',s:'FUS',p:19,m:11},
 ]},
 pl:{name:'الدوري الانجليزي',teams:[
 {n:'مان سيتي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F382.png',s:'MCI',p:26,m:10},
@@ -113,21 +107,12 @@ ligue1:{name:'الدوري الفرنسي',teams:[
 {n:'ليون',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F167.png',s:'OL',p:16,m:10},
 ]},
 };
-
 function showLeague(key,btn){
-if(btn){
-document.querySelectorAll('.league-tabs button').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-}
+if(btn){document.querySelectorAll('.league-tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 let L=leagues[key];
 let html='<div class="table-head"><b>'+L.name+'</b><span style="font-size:10px;opacity:.6">الجولة 11</span></div><table><tr><th>#</th><th style="text-align:right">الفريق</th><th>لعب</th><th>نقاط</th></tr>';
 L.teams.forEach((t,i)=>{
-let logoPart;
-if(t.logo){
-logoPart='<img class="logo" src="'+t.logo+'">';
-}else{
-logoPart='<span class="badge" style="background:'+t.c+'">'+t.s+'</span>';
-}
+let logoPart='<img class="logo" src="'+t.logo+'">';
 html+='<tr><td>'+(i+1)+'</td><td class="team-cell">'+logoPart+' '+t.n+'</td><td>'+t.m+'</td><td style="color:#22c55e;font-weight:800">'+t.p+'</td></tr>';
 });
 html+='</table>';
