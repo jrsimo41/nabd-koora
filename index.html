@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Cairo,sans-serif}
 body{background:#0a0e1a;color:#fff}
 header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:12px;text-align:center;position:sticky;top:0;z-index:10}
-.tabs,.league-tabs{display:flex;gap:6px;overflow:auto;padding:8px;max-width:700px;margin:0 auto;white-space:nowrap}
+.tabs,.league-tabs{display:flex;gap:6px;overflow:auto;padding:8px;max-width:700px;margin:0 auto;white-space:nowrap;scrollbar-width:none}
 .tabs button,.league-tabs button{background:#162032;border:1px solid #ffffff15;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;flex-shrink:0}
 .tabs button.active,.league-tabs button.active{background:#22c55e;color:#000;font-weight:800}
 .m{background:#162032;border-radius:12px;padding:10px;margin:8px auto;max-width:700px;border:1px solid #ffffff0f}
@@ -26,79 +26,79 @@ img.logo{width:20px;height:20px;background:#fff;border-radius:50%;padding:1px;ob
 </style>
 </head>
 <body>
-<header><b>⚽ نبض كورة</b><div style="font-size:10px;opacity:.7">سريع وخفيف وبدون أخطاء</div></header>
+<header><b>نبض كورة ⚽</b><div style="font-size:10px;opacity:.7">سريع وخفيف وبدون اخطاء</div></header>
 
 <div class="tabs">
 <button class="active" onclick="filterDay('all',this)">الكل</button>
 <button onclick="filterDay('today',this)">اليوم</button>
 <button onclick="filterDay('tomorrow',this)">غدا</button>
-<button onclick="filterDay('yesterday',this)">الأمس</button>
+<button onclick="filterDay('yesterday',this)">الامس</button>
 </div>
 <div id="matches" style="padding:0 8px"></div>
 
 <div class="league-tabs">
 <button class="active" onclick="showLeague('botola',this)">المغرب</button>
-<button onclick="showLeague('pl',this)">إنجلترا</button>
-<button onclick="showLeague('laliga',this)">إسبانيا</button>
-<button onclick="showLeague('seriea',this)">إيطاليا</button>
-<button onclick="showLeague('bundes',this)">ألمانيا</button>
+<button onclick="showLeague('pl',this)">انجلترا</button>
+<button onclick="showLeague('laliga',this)">اسبانيا</button>
+<button onclick="showLeague('seriea',this)">ايطاليا</button>
+<button onclick="showLeague('bundes',this)">المانيا</button>
 <button onclick="showLeague('ligue1',this)">فرنسا</button>
 </div>
 <div class="table-wrap" id="tableWrap"></div>
 
 <script>
 let all=[
-{h:'الوداد',c:'#cc0000',s:'WAC',a:'الرجاء',ac:'#008000',as:'RCA',sc:'1-1',t:'20:00',d:'اليوم',day:'today'},
-{h:'بركان',c:'#ff6600',s:'RSB',a:'الجيش',ac:'#000000',as:'FAR',sc:'0-0',t:'18:00',d:'اليوم',day:'today'},
-{h:'برشلونة',hl:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',a:'ريال مدريد',al:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',sc:'21:00',t:'21:00',d:'غدا',day:'tomorrow'},
-{h:'المغرب',c:'#c00000',s:'MAR',a:'الجزائر',ac:'#006600',as:'ALG',sc:'1-0',t:'20:00',d:'الأمس',day:'yesterday'},
+{h:'الوداد',c:'#cc0000',s:'WAC',a:'الرجاء',ac:'#009900',as:'RCA',sc:'1-1',d:'اليوم',day:'today'},
+{h:'بركان',c:'#ff6600',s:'RSB',a:'الجيش',ac:'#000',as:'FAR',sc:'0-0',d:'اليوم',day:'today'},
+{h:'برشلونة',c:'#004d98',s:'FCB',a:'ريال مدريد',ac:'#fff',as:'RMA',sc:'21:00',d:'غدا',day:'tomorrow'},
+{h:'المغرب',c:'#c00000',s:'MAR',a:'الجزائر',ac:'#006600',as:'ALG',sc:'1-0',d:'الامس',day:'yesterday'},
 ];
 
-function badge(color,txt){return `<span class="badge" style="background:${color}">${txt}</span>`;}
-function logoOrBadge(url,color,txt){if(url){return `<img class="logo" src="${url}" onerror="this.outerHTML='${badge(color,txt).replace(/'/g, &quot;)}'">`;}return badge(color,txt);}
-
 function render(list){
-let out='';list.forEach(x=>{
-let hl = x.hl ? `<img class="logo" src="${x.hl}" onerror="this.style.display='none'">` : badge(x.c,x.s);
-let al = x.al ? `<img class="logo" src="${x.al}" onerror="this.style.display='none'">` : badge(x.ac||'#333',x.as);
-out+=`<div class="m"><div style="font-size:11px;opacity:.6;display:flex;justify-content:space-between"><span>${x.d}</span><span>20:00</span></div>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><div class="team">${hl} ${x.h}</div><div class="sc">${x.sc}</div><div class="team">${x.a} ${al}</div></div>
-<div class="time">🇲🇦 20:00 | 🇪🇬 21:00 | 🇸🇦 22:00 | 🇦🇪 23:00</div></div>`;
+let out='';
+list.forEach(x=>{
+let hl='<span class="badge" style="background:'+x.c+'">'+x.s+'</span>';
+let al='<span class="badge" style="background:'+x.ac+';color:'+(x.ac=='#fff'?'#000':'#fff')+'">'+x.as+'</span>';
+out+='<div class="m"><div style="font-size:11px;opacity:.6;display:flex;justify-content:space-between"><span>'+x.d+'</span><span>مباشر</span></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><div class="team">'+hl+' '+x.h+'</div><div class="sc">'+x.sc+'</div><div class="team">'+x.a+' '+al+'</div></div><div class="time">MA 20:00 | EG 21:00 | SA 22:00</div></div>';
 });
 document.getElementById('matches').innerHTML=out;
 }
-function filterDay(k,btn){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(k==='all')render(all);else render(all.filter(x=>x.day===k));}
+function filterDay(k,btn){
+document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+if(k=='all')render(all);else render(all.filter(x=>x.day==k));
+}
 
 let leagues={
 botola:{name:'البطولة المغربية',teams:[
 {n:'نهضة بركان',c:'#ff6600',s:'RSB',p:28,m:11},
 {n:'الجيش الملكي',c:'#000',s:'FAR',p:25,m:11},
 {n:'الوداد',c:'#cc0000',s:'WAC',p:23,m:11},
-{n:'الرجاء',c:'#00a000',s:'RCA',p:22,m:11},
+{n:'الرجاء',c:'#009900',s:'RCA',p:22,m:11},
 {n:'الفتح',c:'#0033cc',s:'FUS',p:19,m:11},
 ]},
-pl:{name:'الدوري الإنجليزي',teams:[
+pl:{name:'الدوري الانجليزي',teams:[
 {n:'مان سيتي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F382.png',s:'MCI',p:26,m:10},
-{n:'أرسنال',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F359.png',s:'ARS',p:24,m:10},
+{n:'ارسنال',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F359.png',s:'ARS',p:24,m:10},
 {n:'ليفربول',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F364.png',s:'LIV',p:23,m:10},
 {n:'تشيلسي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F363.png',s:'CHE',p:20,m:10},
 {n:'توتنهام',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F367.png',s:'TOT',p:18,m:10},
 ]},
-laliga:{name:'الدوري الإسباني',teams:[
+laliga:{name:'الدوري الاسباني',teams:[
 {n:'برشلونة',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',s:'FCB',p:27,m:10},
 {n:'ريال مدريد',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',s:'RMA',p:25,m:10},
-{n:'أتلتيكو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F1068.png',s:'ATM',p:22,m:10},
+{n:'اتلتيكو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F1068.png',s:'ATM',p:22,m:10},
 {n:'بيلباو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F93.png',s:'ATH',p:19,m:10},
 {n:'فياريال',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F102.png',s:'VIL',p:17,m:10},
 ]},
-seriea:{name:'الدوري الإيطالي',teams:[
-{n:'إنتر',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F110.png',s:'INT',p:25,m:10},
+seriea:{name:'الدوري الايطالي',teams:[
+{n:'انتر',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F110.png',s:'INT',p:25,m:10},
 {n:'نابولي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F114.png',s:'NAP',p:23,m:10},
 {n:'يوفنتوس',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F111.png',s:'JUV',p:21,m:10},
 {n:'ميلان',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F103.png',s:'MIL',p:20,m:10},
 {n:'روما',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F104.png',s:'ROM',p:18,m:10},
 ]},
-bundes:{name:'الدوري الألماني',teams:[
+bundes:{name:'الدوري الالماني',teams:[
 {n:'بايرن',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F132.png',s:'BAY',p:28,m:10},
 {n:'ليفركوزن',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F131.png',s:'LEV',p:24,m:10},
 {n:'دورتموند',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F124.png',s:'BVB',p:22,m:10},
@@ -109,20 +109,28 @@ ligue1:{name:'الدوري الفرنسي',teams:[
 {n:'باريس',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F160.png',s:'PSG',p:27,m:10},
 {n:'مارسيليا',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F176.png',s:'OM',p:22,m:10},
 {n:'موناكو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F174.png',s:'ASM',p:21,m:10},
-{n:'ليل',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F166.png',s:'LOSC',p:19,m:10},
+{n:'ليل',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F166.png',s:'LOS',p:19,m:10},
 {n:'ليون',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F167.png',s:'OL',p:16,m:10},
 ]},
 };
 
 function showLeague(key,btn){
-if(btn){document.querySelectorAll('.league-tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+if(btn){
+document.querySelectorAll('.league-tabs button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
 let L=leagues[key];
-let html=`<div class="table-head"><b>${L.name}</b><span style="font-size:10px;opacity:.6">الجولة 11</span></div><table><tr><th>#</th><th style="text-align:right">الفريق</th><th>لعب</th><th>نقاط</th></tr>`;
+let html='<div class="table-head"><b>'+L.name+'</b><span style="font-size:10px;opacity:.6">الجولة 11</span></div><table><tr><th>#</th><th style="text-align:right">الفريق</th><th>لعب</th><th>نقاط</th></tr>';
 L.teams.forEach((t,i)=>{
-let logo = t.logo ? `<img class="logo" src="${t.logo}" onerror="this.outerHTML='<span class=&quot;badge&quot; style=&quot;background:#222&quot;>${t.s}</span>'">` : `<span class="badge" style="background:${t.c}">${t.s}</span>`;
-html+=`<tr><td>${i+1}</td><td class="team-cell">${logo} ${t.n}</td><td>${t.m}</td><td style="color:#22c55e;font-weight:800">${t.p}</td></tr>`;
+let logoPart;
+if(t.logo){
+logoPart='<img class="logo" src="'+t.logo+'">';
+}else{
+logoPart='<span class="badge" style="background:'+t.c+'">'+t.s+'</span>';
+}
+html+='<tr><td>'+(i+1)+'</td><td class="team-cell">'+logoPart+' '+t.n+'</td><td>'+t.m+'</td><td style="color:#22c55e;font-weight:800">'+t.p+'</td></tr>';
 });
-html+=`</table>`;
+html+='</table>';
 document.getElementById('tableWrap').innerHTML=html;
 }
 render(all);
