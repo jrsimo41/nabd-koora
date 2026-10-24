@@ -1,140 +1,132 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#16a34a">
-<title>نبض كورة - بدون أخطاء</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نبض كورة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Cairo,sans-serif}
-body{background:#0a0e1a;color:#fff;padding-bottom:20px}
-header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:14px;text-align:center;position:sticky;top:0;z-index:20}
-.tabs{display:flex;gap:6px;overflow:auto;padding:10px;max-width:700px;margin:0 auto;white-space:nowrap}
-.tabs button{background:#162032;border:1px solid #ffffff15;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;flex-shrink:0}
-.tabs button.active{background:#22c55e;color:#000;font-weight:800}
-.m{background:#162032;border:1px solid #ffffff12;border-radius:14px;padding:10px;margin:10px auto;max-width:700px}
-.t{font-size:11px;opacity:.6;display:flex;justify-content:space-between}
-.l{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-.team{font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px}
-.team .logo{width:22px;height:22px;background:#fff;border-radius:50%;display:grid;place-items:center;font-size:12px;overflow:hidden}
-.team .logo img{width:100%;height:100%;object-fit:contain}
-.sc{background:#0f172a;padding:3px 12px;border-radius:8px;font-weight:800}
-.time{font-size:11px;background:#0f172a;padding:6px;border-radius:8px;margin-top:8px;text-align:center;border:1px solid #22c55e22}
-.league-tabs{display:flex;gap:6px;overflow:auto;padding:10px;max-width:700px;margin:10px auto 0;white-space:nowrap}
-.league-tabs button{background:#162032;border:1px solid #22c55e33;color:#fff;padding:8px 14px;border-radius:10px;font-size:12px;cursor:pointer;flex-shrink:0}
-.league-tabs button.active{background:#22c55e;color:#000;font-weight:800}
-.table-wrap{background:#162032;border-radius:14px;margin:10px auto;max-width:700px;overflow:hidden;border:1px solid #ffffff12}
-.table-head{background:#0f172a;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+body{background:#0a0e1a;color:#fff}
+header{background:linear-gradient(90deg,#0f172a,#16a34a);padding:12px;text-align:center;position:sticky;top:0;z-index:10}
+.tabs,.league-tabs{display:flex;gap:6px;overflow:auto;padding:8px;max-width:700px;margin:0 auto;white-space:nowrap}
+.tabs button,.league-tabs button{background:#162032;border:1px solid #ffffff15;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;flex-shrink:0}
+.tabs button.active,.league-tabs button.active{background:#22c55e;color:#000;font-weight:800}
+.m{background:#162032;border-radius:12px;padding:10px;margin:8px auto;max-width:700px;border:1px solid #ffffff0f}
+.badge{width:24px;height:24px;min-width:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+.team{display:flex;align-items:center;gap:6px;font-weight:700;font-size:13px}
+.sc{background:#0f172a;padding:2px 10px;border-radius:6px;font-weight:800}
+.time{font-size:11px;background:#0f172a;padding:5px;border-radius:6px;margin-top:6px;text-align:center;border:1px solid #22c55e22;color:#22c55e}
+.table-wrap{background:#162032;border-radius:12px;margin:10px auto;max-width:700px;overflow:hidden;border:1px solid #ffffff12}
+.table-head{background:#0f172a;padding:10px;display:flex;justify-content:space-between}
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{padding:8px 6px;font-size:10px;opacity:.6;text-align:center;background:#0a0e1a}
-td{padding:8px 6px;text-align:center;border-top:1px solid #ffffff0a}
-td.team-cell{text-align:right;display:flex;align-items:center;gap:6px;font-weight:600}
-.status{font-size:10px;padding:4px 8px;border-radius:12px;background:#162032;max-width:700px;margin:8px auto;text-align:center;opacity:.7}
-.status.ok{color:#22c55e;border:1px solid #22c55e33} .status.off{color:#f59e0b;border:1px solid #f59e0b33}
+th{padding:8px;background:#0a0e1a;opacity:.6;font-size:10px}
+td{padding:9px 6px;text-align:center;border-top:1px solid #ffffff0a}
+td.team-cell{text-align:right;display:flex;align-items:center;gap:8px}
+img.logo{width:20px;height:20px;background:#fff;border-radius:50%;padding:1px;object-fit:contain}
 </style>
 </head>
 <body>
-<header><div style="font-size:20px;font-weight:800">نبض كورة ⚽</div><div style="font-size:10px;opacity:.8">يشتغل حتى بدون انترنت</div></header>
-
-<div id="netStatus" class="status ok">✓ متصل - البيانات محدثة</div>
+<header><b>⚽ نبض كورة</b><div style="font-size:10px;opacity:.7">سريع وخفيف وبدون أخطاء</div></header>
 
 <div class="tabs">
 <button class="active" onclick="filterDay('all',this)">الكل</button>
 <button onclick="filterDay('today',this)">اليوم</button>
 <button onclick="filterDay('tomorrow',this)">غدا</button>
-<button onclick="filterDay('yesterday',this)">الامس</button>
-<button onclick="filterDay('botola',this)">البطولة</button>
+<button onclick="filterDay('yesterday',this)">الأمس</button>
 </div>
-
-<div id="matches" style="max-width:700px;margin:0 auto;padding:0 10px"></div>
+<div id="matches" style="padding:0 8px"></div>
 
 <div class="league-tabs">
 <button class="active" onclick="showLeague('botola',this)">المغرب</button>
-<button onclick="showLeague('pl',this)">انجلترا</button>
-<button onclick="showLeague('laliga',this)">اسبانيا</button>
-<button onclick="showLeague('seriea',this)">ايطاليا</button>
-<button onclick="showLeague('bundes',this)">المانيا</button>
+<button onclick="showLeague('pl',this)">إنجلترا</button>
+<button onclick="showLeague('laliga',this)">إسبانيا</button>
+<button onclick="showLeague('seriea',this)">إيطاليا</button>
+<button onclick="showLeague('bundes',this)">ألمانيا</button>
 <button onclick="showLeague('ligue1',this)">فرنسا</button>
 </div>
-
 <div class="table-wrap" id="tableWrap"></div>
 
 <script>
-// حماية من اخطاء الصور
-function safeLogo(url, fallback){
-  return `<span class="logo"><img src="${url}" onerror="this.parentElement.innerHTML='${fallback}'"></span>`;
-}
-
 let all=[
-{h:'الوداد',hf:'W',a:'الرجاء',af:'R',hl:'https://media.api-sports.io/football/teams/1069.png',al:'https://media.api-sports.io/football/teams/1067.png',s:'1 - 1',t:'20:00',d:'اليوم',day:'today',lg:'botola',live:true},
-{h:'بركان',hf:'B',a:'الجيش',af:'AS',hl:'https://media.api-sports.io/football/teams/1040.png',al:'https://media.api-sports.io/football/teams/1016.png',s:'0 - 0',t:'18:00',d:'اليوم',day:'today',lg:'botola',live:false},
-{h:'برشلونة',hf:'FCB',a:'ريال مدريد',af:'RMA',hl:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',al:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',s:'2 - 0',t:'21:00',d:'غدا',day:'tomorrow',lg:'laliga',live:true},
-{h:'المغرب',hf:'MA',a:'الجزائر',af:'DZ',hl:'https://media.api-sports.io/football/teams/31.png',al:'https://media.api-sports.io/football/teams/32.png',s:'1 - 0',t:'20:00',d:'الامس',day:'yesterday',lg:'caf',live:false},
+{h:'الوداد',c:'#cc0000',s:'WAC',a:'الرجاء',ac:'#008000',as:'RCA',sc:'1-1',t:'20:00',d:'اليوم',day:'today'},
+{h:'بركان',c:'#ff6600',s:'RSB',a:'الجيش',ac:'#000000',as:'FAR',sc:'0-0',t:'18:00',d:'اليوم',day:'today'},
+{h:'برشلونة',hl:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',a:'ريال مدريد',al:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',sc:'21:00',t:'21:00',d:'غدا',day:'tomorrow'},
+{h:'المغرب',c:'#c00000',s:'MAR',a:'الجزائر',ac:'#006600',as:'ALG',sc:'1-0',t:'20:00',d:'الأمس',day:'yesterday'},
 ];
 
-// حفظ فالتيليفون باش يخدم بلا انترنت
-try{localStorage.setItem('nabd_matches', JSON.stringify(all));}catch(e){}
-
-function timeLine(t){let h=parseInt(t.split(':')[0]);let m=t.split(':')[1];let f=x=>{let n=x;if(n>=24)n-=24;return String(n).padStart(2,'0')+':'+m;};return 'MA '+t+' | DZ '+f(h)+' | EG '+f(h+1)+' | SA '+f(h+2);}
+function badge(color,txt){return `<span class="badge" style="background:${color}">${txt}</span>`;}
+function logoOrBadge(url,color,txt){if(url){return `<img class="logo" src="${url}" onerror="this.outerHTML='${badge(color,txt).replace(/'/g, &quot;)}'">`;}return badge(color,txt);}
 
 function render(list){
-  let box=document.getElementById('matches');
-  if(!list || list.length===0){box.innerHTML='<div style="text-align:center;opacity:.5;padding:20px">لا توجد مباريات</div>';return;}
-  let out='';list.forEach(x=>{
-    out+=`<div class="m"><div class="t"><span>${x.d}</span><span style="color:${x.live?'#ef4444':'#888'}">${x.live?'● مباشر':'انتهى'}</span></div>
-    <div class="l"><div class="team">${safeLogo(x.hl,x.hf)} ${x.h}</div><div class="sc">${x.s}</div><div class="team">${x.a} ${safeLogo(x.al,x.af)}</div></div>
-    <div class="time">${timeLine(x.t)}</div></div>`;
-  });
-  box.innerHTML=out;
+let out='';list.forEach(x=>{
+let hl = x.hl ? `<img class="logo" src="${x.hl}" onerror="this.style.display='none'">` : badge(x.c,x.s);
+let al = x.al ? `<img class="logo" src="${x.al}" onerror="this.style.display='none'">` : badge(x.ac||'#333',x.as);
+out+=`<div class="m"><div style="font-size:11px;opacity:.6;display:flex;justify-content:space-between"><span>${x.d}</span><span>20:00</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><div class="team">${hl} ${x.h}</div><div class="sc">${x.sc}</div><div class="team">${x.a} ${al}</div></div>
+<div class="time">🇲🇦 20:00 | 🇪🇬 21:00 | 🇸🇦 22:00 | 🇦🇪 23:00</div></div>`;
+});
+document.getElementById('matches').innerHTML=out;
 }
-
-function filterDay(k,btn){
-  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(k==='all')render(all);else render(all.filter(x=>x.day===k||x.lg===k));
-}
+function filterDay(k,btn){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(k==='all')render(all);else render(all.filter(x=>x.day===k));}
 
 let leagues={
-botola:{name:'البطولة - المغرب',teams:[{n:'نهضة بركان',s:'RSB',p:28,m:11,logo:'https://media.api-sports.io/football/teams/1040.png'},{n:'الجيش الملكي',s:'FAR',p:25,m:11,logo:'https://media.api-sports.io/football/teams/1016.png'},{n:'الوداد',s:'WAC',p:23,m:11,logo:'https://media.api-sports.io/football/teams/1069.png'},{n:'الرجاء',s:'RCA',p:22,m:11,logo:'https://media.api-sports.io/football/teams/1067.png'},{n:'الفتح',s:'FUS',p:19,m:11,logo:'https://media.api-sports.io/football/teams/1019.png'}]},
-pl:{name:'انجلترا - PL',teams:[{n:'مان سيتي',s:'MCI',p:26,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F382.png'},{n:'ارسنال',s:'ARS',p:24,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F359.png'},{n:'ليفربول',s:'LIV',p:23,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F364.png'},{n:'تشيلسي',s:'CHE',p:20,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F363.png'},{n:'توتنهام',s:'TOT',p:18,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F367.png'}]},
-laliga:{name:'اسبانيا - LaLiga',teams:[{n:'برشلونة',s:'FCB',p:27,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png'},{n:'ريال مدريد',s:'RMA',p:25,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png'},{n:'اتلتيكو',s:'ATM',p:22,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F1068.png'},{n:'بيلباو',s:'ATH',p:19,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F93.png'},{n:'فياريال',s:'VIL',p:17,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F102.png'}]},
-seriea:{name:'ايطاليا - Serie A',teams:[{n:'انتر',s:'INT',p:25,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F110.png'},{n:'نابولي',s:'NAP',p:23,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F114.png'},{n:'يوفنتوس',s:'JUV',p:21,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F111.png'},{n:'ميلان',s:'MIL',p:20,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F103.png'},{n:'روما',s:'ROM',p:18,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F104.png'}]},
-bundes:{name:'المانيا - Bundesliga',teams:[{n:'بايرن',s:'BAY',p:28,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F132.png'},{n:'ليفركوزن',s:'LEV',p:24,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F131.png'},{n:'دورتموند',s:'BVB',p:22,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F124.png'},{n:'لايبزيغ',s:'RBL',p:19,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F12321.png'},{n:'شتوتغارت',s:'VFB',p:17,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F134.png'}]},
-ligue1:{name:'فرنسا - Ligue 1',teams:[{n:'باريس',s:'PSG',p:27,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F160.png'},{n:'مارسيليا',s:'OM',p:22,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F176.png'},{n:'موناكو',s:'ASM',p:21,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F174.png'},{n:'ليل',s:'LOSC',p:19,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F166.png'},{n:'ليون',s:'OL',p:16,m:10,logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F167.png'}]},
+botola:{name:'البطولة المغربية',teams:[
+{n:'نهضة بركان',c:'#ff6600',s:'RSB',p:28,m:11},
+{n:'الجيش الملكي',c:'#000',s:'FAR',p:25,m:11},
+{n:'الوداد',c:'#cc0000',s:'WAC',p:23,m:11},
+{n:'الرجاء',c:'#00a000',s:'RCA',p:22,m:11},
+{n:'الفتح',c:'#0033cc',s:'FUS',p:19,m:11},
+]},
+pl:{name:'الدوري الإنجليزي',teams:[
+{n:'مان سيتي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F382.png',s:'MCI',p:26,m:10},
+{n:'أرسنال',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F359.png',s:'ARS',p:24,m:10},
+{n:'ليفربول',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F364.png',s:'LIV',p:23,m:10},
+{n:'تشيلسي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F363.png',s:'CHE',p:20,m:10},
+{n:'توتنهام',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F367.png',s:'TOT',p:18,m:10},
+]},
+laliga:{name:'الدوري الإسباني',teams:[
+{n:'برشلونة',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F83.png',s:'FCB',p:27,m:10},
+{n:'ريال مدريد',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F86.png',s:'RMA',p:25,m:10},
+{n:'أتلتيكو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F1068.png',s:'ATM',p:22,m:10},
+{n:'بيلباو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F93.png',s:'ATH',p:19,m:10},
+{n:'فياريال',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F102.png',s:'VIL',p:17,m:10},
+]},
+seriea:{name:'الدوري الإيطالي',teams:[
+{n:'إنتر',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F110.png',s:'INT',p:25,m:10},
+{n:'نابولي',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F114.png',s:'NAP',p:23,m:10},
+{n:'يوفنتوس',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F111.png',s:'JUV',p:21,m:10},
+{n:'ميلان',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F103.png',s:'MIL',p:20,m:10},
+{n:'روما',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F104.png',s:'ROM',p:18,m:10},
+]},
+bundes:{name:'الدوري الألماني',teams:[
+{n:'بايرن',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F132.png',s:'BAY',p:28,m:10},
+{n:'ليفركوزن',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F131.png',s:'LEV',p:24,m:10},
+{n:'دورتموند',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F124.png',s:'BVB',p:22,m:10},
+{n:'لايبزيغ',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F12321.png',s:'RBL',p:19,m:10},
+{n:'شتوتغارت',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F134.png',s:'VFB',p:17,m:10},
+]},
+ligue1:{name:'الدوري الفرنسي',teams:[
+{n:'باريس',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F160.png',s:'PSG',p:27,m:10},
+{n:'مارسيليا',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F176.png',s:'OM',p:22,m:10},
+{n:'موناكو',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F174.png',s:'ASM',p:21,m:10},
+{n:'ليل',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F166.png',s:'LOSC',p:19,m:10},
+{n:'ليون',logo:'https://a3.espncdn.com/combiner/i?img=%2Fi%2Fteamlogos%2Fsoccer%2F500%2F167.png',s:'OL',p:16,m:10},
+]},
 };
 
 function showLeague(key,btn){
-  if(btn){document.querySelectorAll('.league-tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-  let L=leagues[key];
-  let html='<div class="table-head"><b>'+L.name+'</b><span style="font-size:10px;opacity:.6">الجولة 11</span></div><table><tr><th>#</th><th style="text-align:right">الفريق</th><th>لعب</th><th>نقاط</th></tr>';
-  L.teams.forEach((t,i)=>{
-    html+='<tr><td>'+(i+1)+'</td><td class="team-cell">'+safeLogo(t.logo,t.s)+' '+t.n+'</td><td>'+t.m+'</td><td style="font-weight:800;color:#22c55e">'+t.p+'</td></tr>';
-  });
-  html+='</table>';
-  document.getElementById('tableWrap').innerHTML=html;
-  try{localStorage.setItem('nabd_league', key);}catch(e){}
+if(btn){document.querySelectorAll('.league-tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+let L=leagues[key];
+let html=`<div class="table-head"><b>${L.name}</b><span style="font-size:10px;opacity:.6">الجولة 11</span></div><table><tr><th>#</th><th style="text-align:right">الفريق</th><th>لعب</th><th>نقاط</th></tr>`;
+L.teams.forEach((t,i)=>{
+let logo = t.logo ? `<img class="logo" src="${t.logo}" onerror="this.outerHTML='<span class=&quot;badge&quot; style=&quot;background:#222&quot;>${t.s}</span>'">` : `<span class="badge" style="background:${t.c}">${t.s}</span>`;
+html+=`<tr><td>${i+1}</td><td class="team-cell">${logo} ${t.n}</td><td>${t.m}</td><td style="color:#22c55e;font-weight:800">${t.p}</td></tr>`;
+});
+html+=`</table>`;
+document.getElementById('tableWrap').innerHTML=html;
 }
-
-// حالة الانترنت
-function updateNet(){
-  let el=document.getElementById('netStatus');
-  if(navigator.onLine){el.className='status ok';el.textContent='✓ متصل - البيانات محدثة';}
-  else{el.className='status off';el.textContent='⚠ غير متصل - نعرض البيانات المحفوظة';}
-}
-window.addEventListener('online', updateNet);
-window.addEventListener('offline', updateNet);
-updateNet();
-
-// تحميل
 render(all);
 showLeague('botola',null);
-
-// تسجيل باش يخدم بلا انترنت
-if('serviceWorker' in navigator){/* جاهز للـ PWA */}
-
-// حماية من الاخطاء القاتلة
-window.onerror=function(){document.getElementById('matches').innerHTML='<div style="text-align:center;padding:20px;opacity:.6">جاري التحميل... عاود تحديث الصفحة</div>';render(all);return true;}
 </script>
 </body>
 </html>
