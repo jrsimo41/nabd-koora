@@ -59,9 +59,45 @@ out+='<div class="m"><div style="font-size:11px;opacity:.6;display:flex;justify-
 });
 document.getElementById('matches').innerHTML=out;
 }
-function filterDay(k,btn){
-document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-if(k=='all')render(all);else render(all.filter(x=>x.day==k));
+
+let selectedDay = 'all';
+
+function applyMatchFilters() {
+  const searchInput = document.getElementById('matchSearch');
+  const search = searchInput
+    ? searchInput.value.trim().toLowerCase()
+    : '';
+
+  const filtered = all.filter(x => {
+    const dayMatch =
+      selectedDay === 'all' || x.day === selectedDay;
+
+    const textMatch =
+      (x.h + ' ' + x.a + ' ' + x.s + ' ' + x.as)
+      .toLowerCase().includes(search);
+
+    return dayMatch && textMatch;
+  });
+
+  render(filtered);
+
+  const count = document.getElementById('matchCount');
+  if (count) {
+    count.textContent = filtered.length + ' مباراة';
+  }
+}
+
+function filterDay(k, btn) {
+  document.querySelectorAll('.tabs button')
+    .forEach(b => b.classList.remove('active'));
+
+  btn.classList.add('active');
+  selectedDay = k;
+  applyMatchFilters();
+}
+
+
+
 }
 let leagues={
 botola:{name:'البطولة المغربية',teams:[
